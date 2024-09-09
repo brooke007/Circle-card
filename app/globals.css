@@ -25,3 +25,12 @@ body {
     text-wrap: balance;
   }
 }
+
+.text-pizzapurple {
+  /* text-overflow: #9b00f5; */
+  color: #9b00f5;
+}
+
+.bg-pizzapurple {
+  background-color: #9b00f5;
+}

@@ -1,127 +1,72 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { findUser, createUser, updateCustomDomain } from '@/lib/data'
+import { Menu } from 'lucide-react'
+import LoginModal from '@/components/login-modal'
+import RegisterModal from '@/components/register-modal'
+import GoToMyPage from '@/components/go-to-my-page'
+import SetCustomDomain from '@/components/set-custom-domain'
+import './globals.css'
 
 export default function Home() {
-  const [isLogin, setIsLogin] = useState(true)
-  const [account, setAccount] = useState('')
-  const [password, setPassword] = useState('')
-  const [customDomain, setCustomDomain] = useState('')
-  const [error, setError] = useState('')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [user, setUser] = useState(null)
-  const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-
-    if (isLogin) {
-      const foundUser = findUser(account, password)
-      if (foundUser) {
-        setUser(foundUser)
-        if (foundUser.customDomain) {
-          router.push(`/${foundUser.customDomain}`)
-        }
-      } else {
-        setError('Invalid credentials')
-      }
-    } else {
-      const newUser = createUser(account, password)
-      if (newUser) {
-        setUser(newUser)
-      } else {
-        setError('Account already exists')
-      }
-    }
+  const handleLogin = (loggedInUser) => {
+    setUser(loggedInUser)
+    setShowLoginModal(false)
   }
 
-  const handleCustomDomain = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (user && updateCustomDomain(user.account, customDomain)) {
-      router.push(`/${customDomain}`)
-    } else {
-      setError('Failed to update custom domain')
-    }
+  const handleRegister = (newUser) => {
+    setUser(newUser)
+    setShowRegisterModal(false)
   }
 
-  if (user && !user.customDomain) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-md w-96">
-          <h1 className="text-2xl font-bold mb-4">Set Custom Domain</h1>
-          <form onSubmit={handleCustomDomain}>
-            <input
-              type="text"
-              value={customDomain}
-              onChange={(e) => setCustomDomain(e.target.value)}
-              placeholder="Enter custom domain"
-              className="w-full p-2 border rounded mb-4"
-              required
-            />
-            <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
-              Set Custom Domain
-            </button>
-          </form>
-          {error && <p className="text-red-500 mt-2">{error}</p>}
-        </div>
-      </div>
-    )
-  }
-
-  if (user && user.customDomain) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-md w-96">
-          <h1 className="text-2xl font-bold mb-4">Welcome, {user.account}!</h1>
-          <button
-            onClick={() => router.push(`/${user.customDomain}`)}
-            className="w-full bg-blue-500 text-white p-2 rounded"
-          >
-            Go to My Page
-          </button>
-        </div>
-      </div>
-    )
+  const handleDomainSet = (domain) => {
+    setUser({ ...user, customDomain: domain })
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-bold mb-4">{isLogin ? 'Login' : 'Register'}</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={account}
-            onChange={(e) => setAccount(e.target.value)}
-            placeholder="Account"
-            className="w-full p-2 border rounded mb-4"
-            required
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full p-2 border rounded mb-4"
-            required
-          />
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
-            {isLogin ? 'Login' : 'Register'}
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center relative">
+      <button
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className="absolute top-4 right-4 p-2 rounded-full bg-white shadow-md"
+      >
+        <Menu size={24} />
+      </button>
+      {isMenuOpen && (
+        <div className="absolute top-16 right-4 bg-white shadow-md rounded-md p-4">
+          <button onClick={() => setShowLoginModal(true)} className="block w-full text-left py-2 px-4 hover:bg-gray-100">
+            Login
           </button>
-        </form>
-        <p className="mt-4 text-center">
-          {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <button
-            onClick={() => setIsLogin(!isLogin)}
-            className="text-blue-500 underline"
-          >
-            {isLogin ? 'Register' : 'Login'}
+          <button onClick={() => setShowRegisterModal(true)} className="block w-full text-left py-2 px-4 hover:bg-gray-100">
+            Register
           </button>
-        </p>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        </div>
+      )}
+      <div>
+      {/* <img src="/pizza00.png" className='max-w-80 max-h-80 items-center'/> */}
+      <img src="/pizza00.png" className="mx-auto my-8 w-full max-w-80" alt="Pizza" />
+      <h1 className="text-2xl font-bold text-pizzapurple ml-8 mr-8">Get Your Pizza Card Here!</h1>
       </div>
+      
+      {user ? (
+        user.customDomain ? (
+          <GoToMyPage customDomain={user.customDomain} />
+        ) : (
+          <SetCustomDomain account={user.account} onDomainSet={handleDomainSet} />
+        )
+      ) : (
+        <p className="text-xxl text-yellow-300">Login or register to create your Pizza Card!</p>
+      )}
+      {showLoginModal && (
+        <LoginModal onClose={() => setShowLoginModal(false)} onLogin={handleLogin} />
+      )}
+      {showRegisterModal && (
+        <RegisterModal onClose={() => setShowRegisterModal(false)} onRegister={handleRegister} />
+      )}
     </div>
   )
 }

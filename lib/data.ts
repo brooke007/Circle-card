@@ -1,11 +1,16 @@
 // Mock data arrays
-const users = [
-    { account: 'johndoe', password: 'password123', customDomain: 'john' },
-    { account: 'janedoe', password: 'password456', customDomain: 'jane' },
+// const users = [
+//     { account: 'jojo', password: '111', customDomain: 'jojo' },
+//     { account: 'janedoe', password: 'password456', customDomain: 'jane' },
+//   ];
+
+  const users = [
+    { account: 'jojo', password: '111', customDomain: 'jojo', avatarUrl: '/pizza00.png?height=100&width=100' },
+    { account: 'janedoe', password: 'password456', customDomain: 'jane', avatarUrl: '/tool01.png?height=100&width=100' },
   ];
   
   const userUrls = [
-    { customDomain: 'john', urls: [
+    { customDomain: 'jojo', urls: [
       { platform: 'GitHub', url: 'https://github.com/johndoe' },
       { platform: 'Twitter', url: 'https://twitter.com/johndoe' },
     ]},
@@ -16,8 +21,8 @@ const users = [
   ];
   
   const cardHolders = [
-    { customDomain: 'john', savedCards: ['jane', 'bob'] },
-    { customDomain: 'jane', savedCards: ['john'] },
+    { customDomain: 'jojo', savedCards: ['jane', 'bob'] },
+    { customDomain: 'jane', savedCards: ['jojo'] },
   ];
   
   // SQL-like methods
@@ -29,7 +34,7 @@ const users = [
     if (users.some(user => user.account === account)) {
       return null;
     }
-    const newUser = { account, password, customDomain: '' };
+    const newUser = { account, password, customDomain: '' , avatarUrl: '' };
     users.push(newUser);
     return newUser;
   };

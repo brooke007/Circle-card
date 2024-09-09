@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Share2 } from 'lucide-react'
+import BaseinfoShow from '@/components/baseinfo-show'
+import ProfileShow from '@/components/profile-show'
 import { getUserByCustomDomain, getUserUrls } from '@/lib/data'
 
 export default function CardView({ params }: { params: { username: string, cardUsername: string } }) {
@@ -39,28 +40,12 @@ export default function CardView({ params }: { params: { username: string, cardU
         </button>
       </div>
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md mx-auto">
-        <div className="flex flex-col items-center">
-          <Image
-            src="/placeholder.svg?height=100&width=100"
-            alt={user.account}
-            width={100}
-            height={100}
-            className="rounded-full"
-          />
-          <h1 className="mt-4 text-2xl font-bold">{user.account}</h1>
-          <p className="text-gray-500">@{user.customDomain}</p>
-        </div>
-        <div className="mt-6 space-y-4">
-          {socialLinks.map((link, index) => (
-            <Link
-              key={index}
-              href={link.url}
-              className="block w-full text-center py-2 px-4 bg-gray-200 rounded hover:bg-gray-300 transition"
-            >
-              {link.platform}
-            </Link>
-          ))}
-        </div>
+        <BaseinfoShow
+          account={user.account}
+          customDomain={user.customDomain}
+          avatarUrl={user.avatarUrl}
+        />
+        <ProfileShow urls={socialLinks} />
       </div>
     </div>
   )
