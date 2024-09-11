@@ -27,7 +27,7 @@ export default function EditProfilePage({ params }: { params: { username: string
         <ArrowLeft size={20} className="mr-2" />
         Back to Profile
       </Link>
-      <div className="bg-white rounded-lg shadow-xl p-8 max-w-md mx-auto">
+      <div className="bg-blue-300 text-white rounded-lg shadow-xl p-8 max-w-md mx-auto">
         <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
         <ProfileEdit initialUrls={socialLinks} onSave={handleSave} />
       </div>

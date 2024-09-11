@@ -1,17 +1,35 @@
 import Link from 'next/link'
-import { Edit, Users, User } from 'lucide-react'
+import { Edit, Users, User, Globe } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export default function FloatingActionButtons({ username }: { username: string }) {
+  const [buttonSize, setButtonSize] = useState(24)
+
+  useEffect(() => {
+    const handleResize = () => {
+      const viewportWidth = window.innerWidth
+      const newSize = Math.max(24, Math.min(36, viewportWidth / 20)) // Responsive size between 24 and 36
+      setButtonSize(newSize)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
-    <div className="fixed bottom-4 right-4 flex flex-col gap-2">
-      <Link href={`/${username}/edit`} className="p-3 bg-blue-500 text-white rounded-full shadow-lg">
-        <Edit size={24} />
+    <div className="flex justify-center gap-4">
+      <Link href={`/${username}/edit`} className="p-3 bg-pizzapurple text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300">
+        <Edit size={buttonSize} />
       </Link>
-      <Link href={`/${username}/cardholder`} className="p-3 bg-green-500 text-white rounded-full shadow-lg">
-        <Users size={24} />
+      <Link href={`/${username}/cardholder`} className="p-3 bg-pizzapurple text-white rounded-full shadow-lg hover:bg-green-600 transition-colors duration-300">
+        <Users size={buttonSize} />
       </Link>
-      <Link href={`/${username}/system`} className="p-3 bg-purple-500 text-white rounded-full shadow-lg">
-        <User size={24} />
+      <Link href={`/${username}/system`} className="p-3 bg-pizzapurple text-white rounded-full shadow-lg hover:bg-purple-600 transition-colors duration-300">
+        <User size={buttonSize} />
+      </Link>
+      <Link href={`/${username}/web3`} className="p-3 bg-pizzapurple text-white rounded-full shadow-lg hover:bg-orange-600 transition-colors duration-300">
+        <Globe size={buttonSize} />
       </Link>
     </div>
   )

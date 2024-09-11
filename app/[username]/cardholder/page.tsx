@@ -30,14 +30,14 @@ export default function CardHolderPage({ params }: { params: { username: string 
         <ArrowLeft size={20} className="mr-2" />
         Back to Profile
       </Link>
-      <div className="bg-white rounded-lg shadow-xl p-8 max-w-md mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Card Holder</h1>
+      <div className="bg-green-400 rounded-lg shadow-xl p-8 max-w-md mx-auto">
+        <h1 className="text-2xl font-bold mb-6 text-white">Card Holder</h1>
         <Add
           onAdd={handleAddCard}
           placeholder="Enter custom domain"
           buttonText="Add Card"
         />
-        <div className="mt-6">
+        <div className="mt-6 ">
           <CardShow cards={savedCards} currentUser={params.username} />
         </div>
       </div>

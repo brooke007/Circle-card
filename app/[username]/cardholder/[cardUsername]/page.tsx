@@ -1,51 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+// import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Share2 } from 'lucide-react'
-import BaseinfoShow from '@/components/baseinfo-show'
-import ProfileShow from '@/components/profile-show'
+import { ArrowLeft } from 'lucide-react'
 import { getUserByCustomDomain, getUserUrls } from '@/lib/data'
+import ProfileShow from '@/components/profile-show'
+// import FloatingActionButtons from '@/components/floating-action-buttons'
 
-export default function CardView({ params }: { params: { username: string, cardUsername: string } }) {
-  const [copied, setCopied] = useState(false)
-  const user = getUserByCustomDomain(params.cardUsername)
-  const socialLinks = getUserUrls(params.cardUsername)
-
-  if (!user) {
+export default function CardHolderPage({ params }: { params: { username: string; cardUsername: string } }) {
+  const cardUser = getUserByCustomDomain(params.cardUsername)
+  
+  if (!cardUser) {
     return <div>User not found</div>
   }
 
-  const handleShare = () => {
-    const url = `${window.location.origin}/${params.cardUsername}`
-    navigator.clipboard.writeText(url).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
+  const socialLinks = getUserUrls(cardUser.customDomain)
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="flex justify-between items-center mb-4">
-        <Link href={`/${params.username}/cardholder`} className="inline-flex items-center text-blue-500">
-          <ArrowLeft size={20} className="mr-2" />
-          Back to Card Holder
-        </Link>
-        <button
-          onClick={handleShare}
-          className="bg-blue-500 text-white p-2 rounded flex items-center"
-        >
-          <Share2 size={20} />
-          <span className="ml-2">{copied ? 'Copied!' : 'Share'}</span>
-        </button>
-      </div>
-      <div className="bg-white rounded-lg shadow-xl p-8 max-w-md mx-auto">
-        <BaseinfoShow
-          account={user.account}
-          customDomain={user.customDomain}
-          avatarUrl={user.avatarUrl}
-        />
-        <ProfileShow urls={socialLinks} />
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center relative p-4">
+      <Link href={`/${params.username}/cardholder`} className="self-start inline-flex items-center mb-4 text-blue-500">
+        <ArrowLeft size={20} className="mr-2" />
+        Back to Card Holder
+      </Link>
+      <ProfileShow urls={socialLinks} username={cardUser.customDomain} />
+      <div className="h-24" /> {/* Spacer for floating buttons */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 pb-6">
+        {/* <FloatingActionButtons username={params.username} /> */}
       </div>
     </div>
   )

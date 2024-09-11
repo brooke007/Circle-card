@@ -9,14 +9,37 @@
     { account: 'janedoe', password: 'password456', customDomain: 'jane', avatarUrl: '/tool01.png?height=100&width=100' },
   ];
   
+  // const userUrls = [
+  //   { customDomain: 'jojo', urls: [
+  //     { platform: 'GitHub', url: 'https://github.com/johndoe' },
+  //     { platform: 'Twitter', url: 'https://twitter.com/johndoe' },
+  //   ]},
+  //   { customDomain: 'jane', urls: [
+  //     { platform: 'LinkedIn', url: 'https://linkedin.com/in/janedoe' },
+  //     { platform: 'Instagram', url: 'https://instagram.com/janedoe' },
+  //   ]},
+  // ];
   const userUrls = [
     { customDomain: 'jojo', urls: [
+      { platform: 'wechat', url: 'https://wechat.com/johndoe' },
+      { platform: 'email', url: 'mailto:john@example.com' },
+      { platform: 'telegram', url: 'https://t.me/johndoe' },
+      { platform: 'twitter', url: 'https://twitter.com/johndoe' },
       { platform: 'GitHub', url: 'https://github.com/johndoe' },
-      { platform: 'Twitter', url: 'https://twitter.com/johndoe' },
+      { platform: 'bilibili', url: 'https://bilibili.com/johndoe' },
+      { platform: '微博', url: 'https://weibo.com/johndoe' },
     ]},
     { customDomain: 'jane', urls: [
-      { platform: 'LinkedIn', url: 'https://linkedin.com/in/janedoe' },
-      { platform: 'Instagram', url: 'https://instagram.com/janedoe' },
+      { platform: 'QQ', url: 'https://qq.com/janedoe' },
+      { platform: 'discord', url: 'https://discord.com/users/janedoe' },
+      { platform: 'phonenumber', url: 'tel:+1234567890' },
+      { platform: 'Facebook', url: 'https://facebook.com/janedoe' },
+      { platform: 'ins', url: 'https://instagram.com/janedoe' },
+      { platform: 'steam', url: 'https://steamcommunity.com/id/janedoe' },
+      { platform: '豆瓣', url: 'https://douban.com/people/janedoe' },
+      { platform: '小红书', url: 'https://xiaohongshu.com/user/janedoe' },
+      { platform: '抖音', url: 'https://douyin.com/user/janedoe' },
+      { platform: '抖音', url: 'https://douyin.com/user/janedoe' },
     ]},
   ];
   
