@@ -84,7 +84,7 @@ export default function ProfileShow({ urls, username }: ProfileShowProps) {
           layout="fill"
           objectFit="cover"
           className="rounded-lg"
-          // style={{ filter: 'blur(1px)' }} // 添加虚化效果，8px 可以根据需要调整模糊程度
+          // style={{ filter: 'blur(2px)' }} // 添加虚化效果，8px 可以根据需要调整模糊程度
         />
         <div className="absolute inset-0">
           {renderPieChart(platforms, urls, startIndex)} {/* 渲染链接饼图 */}
@@ -96,7 +96,7 @@ export default function ProfileShow({ urls, username }: ProfileShowProps) {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-2xl font-bold text-purple-600 mb-4">my cards:</h2>
+      <h2 className="text-2xl font-bold text-purple-600 mb-4">Hello There!</h2>
       {/* 调整外层容器，使卡片可以重叠显示 */}
       <div className="relative rounded-lg overflow-visible" ref={cardRef}>
         {Array.from({ length: totalCards }, (_, i) => renderCard(i))} {/* 渲染所有卡片 */}

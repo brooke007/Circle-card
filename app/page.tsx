@@ -59,7 +59,7 @@ export default function Home() {
           <SetCustomDomain account={user.account} onDomainSet={handleDomainSet} />
         )
       ) : (
-        <p className="text-xxl text-yellow-300">Login or register to create your Pizza Card!</p>
+        <p className="text-xxl text-yellow-300">Login or register to create your Pizza Card</p>
       )}
       {showLoginModal && (
         <LoginModal onClose={() => setShowLoginModal(false)} onLogin={handleLogin} />
