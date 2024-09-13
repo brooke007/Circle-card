@@ -5,7 +5,9 @@ import { Menu } from 'lucide-react'
 import LoginModal from '@/components/login-modal'
 import RegisterModal from '@/components/register-modal'
 import GoToMyPage from '@/components/go-to-my-page'
+import EditMyProfile from '@/components/edit-my-profile'
 import SetCustomDomain from '@/components/set-custom-domain'
+import { getUserUrls } from '@/lib/data'
 import './globals.css'
 
 export default function Home() {
@@ -28,6 +30,8 @@ export default function Home() {
     setUser({ ...user, customDomain: domain })
   }
 
+  const userHasUrls = user && user.customDomain && getUserUrls(user.customDomain).length > 0
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center relative">
       <button
@@ -47,14 +51,17 @@ export default function Home() {
         </div>
       )}
       <div>
-      {/* <img src="/pizza00.png" className='max-w-80 max-h-80 items-center'/> */}
-      <img src="/pizza00.png" className="mx-auto my-8 w-full max-w-80" alt="Pizza" />
-      <h1 className="text-2xl font-bold text-pizzapurple ml-8 mr-8">Get Your Pizza Card Here!</h1>
+        <img src="/pizza00.png" className="mx-auto my-8 w-full max-w-80" alt="Pizza" />
+        <h1 className="text-2xl font-bold text-pizzapurple ml-8 mr-8">Get Your Pizza Card Here!</h1>
       </div>
       
       {user ? (
         user.customDomain ? (
-          <GoToMyPage customDomain={user.customDomain} />
+          userHasUrls ? (
+            <GoToMyPage customDomain={user.customDomain} />
+          ) : (
+            <EditMyProfile username={user.customDomain} />
+          )
         ) : (
           <SetCustomDomain account={user.account} onDomainSet={handleDomainSet} />
         )
