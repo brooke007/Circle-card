@@ -24,7 +24,7 @@ export default function CustomWalletButton() {
   // Render wallet list dialog
   const renderWalletList = () => (
     <Dialog open={showWalletList} onOpenChange={setShowWalletList}>
-      <DialogContent className="bg-gray-800 text-gray-200">
+      <DialogContent className="bg-white text-gray-800">
         <DialogHeader>
           <DialogTitle>Select a Wallet</DialogTitle>
         </DialogHeader>
@@ -38,7 +38,7 @@ export default function CustomWalletButton() {
                   select(wallet.adapter.name as WalletName);
                   setShowWalletList(false);
                 }}
-                className="justify-start bg-gray-700 text-gray-200 hover:bg-gray-600"
+                className="justify-start bg-gray-200 text-gray-800 hover:bg-gray-300"
               >
                 <img src={wallet.adapter.icon} alt={wallet.adapter.name} className="w-5 h-5 mr-2" />
                 {wallet.adapter.name}
@@ -52,7 +52,7 @@ export default function CustomWalletButton() {
   // Render wallet info dialog
   const renderWalletInfo = () => (
     <Dialog open={showWalletInfo} onOpenChange={setShowWalletInfo}>
-      <DialogContent className="bg-gray-800 text-gray-200">
+      <DialogContent className="bg-white text-gray-800">
         <DialogHeader>
           <DialogTitle>Wallet Info</DialogTitle>
         </DialogHeader>
@@ -63,7 +63,7 @@ export default function CustomWalletButton() {
               setCopied(true);
               setTimeout(() => setCopied(false), 2000);
             }}
-            className="justify-start bg-gray-700 text-gray-200 hover:bg-gray-600"
+            className="justify-start bg-gray-200 text-gray-800 hover:bg-gray-300"
           >
             <Copy className="w-4 h-4 mr-2" />
             {copied ? "Copied!" : truncateAddress(publicKey?.toBase58() || "")}
@@ -73,7 +73,7 @@ export default function CustomWalletButton() {
               disconnect();
               setShowWalletInfo(false);
             }}
-            className="justify-start bg-gray-700 text-gray-200 hover:bg-gray-600"
+            className="justify-start bg-gray-200 text-gray-800 hover:bg-gray-300"
           >
             Disconnect
           </Button>
@@ -99,7 +99,7 @@ export default function CustomWalletButton() {
       >
         <Button
           onClick={() => (connected ? setShowWalletInfo(true) : setShowWalletList(true))}
-          className={`h-12 rounded-full bg-gray-800 text-white hover:bg-gray-700 ${
+          className={`h-12 rounded-full bg-white text-gray-800 hover:bg-gray-200 border border-gray-300 shadow-lg ${
             connected ? "px-4" : "w-12"
           } flex items-center space-x-2 overflow-hidden`}
         >
@@ -109,7 +109,7 @@ export default function CustomWalletButton() {
               <span className="font-medium">{publicKey && truncateAddress(publicKey.toBase58())}</span>
             </>
           ) : (
-            <Wallet className="h-6 w-6 text-white" />
+            <Wallet className="h-8 w-8 text-gray-800" />
           )}
         </Button>
       </motion.div>

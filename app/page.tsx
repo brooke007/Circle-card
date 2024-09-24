@@ -45,7 +45,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center relative">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center relative">
       <div className="flex items-center justify-center my-8">
         <div className="w-64 h-64 border-4 border-black rounded-full"></div>
       </div>
