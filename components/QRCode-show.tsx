@@ -7,8 +7,8 @@ interface QRCodeShowProps {
 
 export default function QRCodeShow({ username }: QRCodeShowProps) {
   // 从环境变量中获取 API URL
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL; // 确保环境变量已配置
   const url = `${apiUrl}/${username}`; // 构建完整的 URL
+  console.log('Generated QR Code URL:', url);
 
   return (
     <div className="flex flex-col items-center justify-center h-2/3 bg-gray-100">
