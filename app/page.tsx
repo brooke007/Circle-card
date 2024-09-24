@@ -1,79 +1,70 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Menu } from 'lucide-react'
-import LoginModal from '@/components/login-modal'
-import RegisterModal from '@/components/register-modal'
-import GoToMyPage from '@/components/go-to-my-page'
-import EditMyProfile from '@/components/edit-my-profile'
-import SetCustomDomain from '@/components/set-custom-domain'
-import { getUserUrls } from '@/lib/data'
-import './globals.css'
+import { useState } from "react";
+import LoginRegisterModal from "@/components/login-register-modal";
+import SetCustomDomain from "@/components/set-custom-domain";
+import { findUser, createUser } from "@/lib/data";
+import "./globals.css";
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useState(false)
-  const [showRegisterModal, setShowRegisterModal] = useState(false)
-  const [user, setUser] = useState(null)
+  const [showLoginRegisterModal, setShowLoginRegisterModal] = useState(false);
+  const [user, setUser] = useState<{
+    account: string;
+    password: string;
+    customDomain: string;
+    avatarUrl: string;
+  } | null>(null);
 
-  const handleLogin = (loggedInUser) => {
-    setUser(loggedInUser)
-    setShowLoginModal(false)
-  }
+  const handleLoginRegister = (account: string, password: string) => {
+    let loggedInUser = findUser(account, password);
+    if (!loggedInUser) {
+      loggedInUser = createUser(account, password) || undefined;
+      setUser(loggedInUser || null);
+      setShowLoginRegisterModal(false);
+      // 注册后需要设置 customDomain 并跳转到 /[username]/edit 页面
+      if (!loggedInUser?.customDomain) {
+        return;
+      }
+    } else {
+      setUser(loggedInUser);
+      setShowLoginRegisterModal(false);
+      // 登录后直接跳转到 /[username] 页面
+      if (loggedInUser.customDomain) {
+        window.location.href = `/${loggedInUser.customDomain}`;
+        return;
+      }
+    }
+  };
 
-  const handleRegister = (newUser) => {
-    setUser(newUser)
-    setShowRegisterModal(false)
-  }
-
-  const handleDomainSet = (domain) => {
-    setUser({ ...user, customDomain: domain })
-  }
-
-  const userHasUrls = user && user.customDomain && getUserUrls(user.customDomain).length > 0
+  const handleDomainSet = (domain: string) => {
+    if (user) {
+      setUser({ ...user, customDomain: domain });
+      // 保存数据到数据库中
+      localStorage.setItem("users", JSON.stringify(user));
+      window.location.href = `/${domain}`;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center relative">
-      <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="absolute top-4 right-4 p-2 rounded-full bg-white shadow-md"
-      >
-        <Menu size={24} />
-      </button>
-      {isMenuOpen && (
-        <div className="absolute top-16 right-4 bg-white shadow-md rounded-md p-4">
-          <button onClick={() => setShowLoginModal(true)} className="block w-full text-left py-2 px-4 hover:bg-gray-100">
-            Login
-          </button>
-          <button onClick={() => setShowRegisterModal(true)} className="block w-full text-left py-2 px-4 hover:bg-gray-100">
-            Register
-          </button>
-        </div>
-      )}
-      <div>
-        <img src="/pizza00.png" className="mx-auto my-8 w-full max-w-80" alt="Pizza" />
-        <h1 className="text-2xl font-bold text-pizzapurple ml-8 mr-8">Get Your Pizza Card Here!</h1>
+      <div className="flex items-center justify-center my-8">
+        <div className="w-64 h-64 border-4 border-black rounded-full"></div>
       </div>
-      
+      <h1 className="text-2xl font-bold text-gray-800 ml-8 mr-8">Get Your Pizza Card Here!</h1>
+
       {user ? (
-        user.customDomain ? (
-          userHasUrls ? (
-            <GoToMyPage customDomain={user.customDomain} />
-          ) : (
-            <EditMyProfile username={user.customDomain} />
-          )
-        ) : (
-          <SetCustomDomain account={user.account} onDomainSet={handleDomainSet} />
-        )
+        !user.customDomain && <SetCustomDomain account={user.account} onDomainSet={handleDomainSet} />
       ) : (
-        <p className="text-xxl text-yellow-300">Login or register to create your Pizza Card</p>
+        <button
+          onClick={() => setShowLoginRegisterModal(true)}
+          className="bg-black text-white px-2 py-1 mt-8 rounded-md text-lg font-semibold hover:bg-gray-800 transition-colors"
+        >
+          Log in/Sign up
+        </button>
       )}
-      {showLoginModal && (
-        <LoginModal onClose={() => setShowLoginModal(false)} onLogin={handleLogin} />
-      )}
-      {showRegisterModal && (
-        <RegisterModal onClose={() => setShowRegisterModal(false)} onRegister={handleRegister} />
+      {showLoginRegisterModal && (
+        <LoginRegisterModal onClose={() => setShowLoginRegisterModal(false)} onLoginRegister={handleLoginRegister} />
       )}
     </div>
-  )
+  );
 }
