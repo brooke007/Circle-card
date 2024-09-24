@@ -21,7 +21,13 @@ export default function Home() {
     setShowLoginModal(false)
   }
 
-  const handleRegister = (newUser) => {
+/*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Called when a new user is registered. Updates the user state with the newly registered user
+   * and hides the register modal.
+   * @param {Object} newUser The newly registered user, with properties `account`, `password`, and `customDomain`.
+   */
+/******  1088f54d-069b-41c0-a376-0e43385ea317  *******/  const handleRegister = (newUser) => {
     setUser(newUser)
     setShowRegisterModal(false)
   }

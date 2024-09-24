@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import QRCodeShow from './QRCode-show';
 
 interface ProfileShowProps {
   urls: Array<{ platform: string; url: string }>
@@ -96,12 +97,17 @@ export default function ProfileShow({ urls, username }: ProfileShowProps) {
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-xl font-bold text-purple-600 mb-4">Hello There!</h2>
-      {/* 调整外层容器，使卡片可以重叠显示 */}
       <div className="relative rounded-lg overflow-visible text-xl" ref={cardRef}>
-        {Array.from({ length: totalCards }, (_, i) => renderCard(i))} {/* 渲染所有卡片 */}
+        <div
+          className={`flex justify-center items-center transition-transform duration-300`}
+          style={{ zIndex: 1 }} // 因为这里只有一个二维码，所以zIndex可以设为1
+        >
+          <QRCodeShow username={username} />
+        </div>
       </div>
     </div>
-  )
+  );
+  
 }
 // import { useState, useRef, useEffect } from 'react'
 // import Image from 'next/image'
