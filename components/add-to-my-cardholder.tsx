@@ -25,7 +25,7 @@ export default function AddToMyCardholder({ currentUser, targetUser }: AddToMyCa
   return (
     <button
       onClick={handleAdd}
-      className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors mt-4"
+      className="fixed bottom-4 left-4 right-4 bg-white text-gray-800 shadow-lg flex justify-around py-2 rounded-2xl border border-gray-300"
     >
       add to my cardholder
     </button>

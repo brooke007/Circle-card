@@ -28,7 +28,7 @@ export default function ProfileShow({ urls, username }: ProfileShowProps) {
 
   const copyToClipboard = (url: string) => {
     navigator.clipboard.writeText(url);
-    alert("链接已复制到剪贴板");
+    alert("copied");
   };
 
   const iconSize = connectionUrls.length > 4 ? 30 : 40; // 根据图标数量调整图标大小
@@ -38,11 +38,14 @@ export default function ProfileShow({ urls, username }: ProfileShowProps) {
       {/* 添加空白 */}
       <div className="h-16"></div>
       {/* 黑色圆环 */}
-      <div className="w-24 h-24 border-4 border-black rounded-full mb-4"></div>
+      {/* <div className="w-24 h-24 border-4 border-black rounded-full mb-4"></div> */}
       {/* 用户域名 */}
       <h1 className="text-2xl font-bold mb-4 text-gray-900">{username}</h1> {/* 使文字颜色更深 */}
       {/* Connection 方框 */}
-      <div className="bg-gray-200 p-4 rounded-lg mb-4 w-full mx-2" style={{ height: "120px", maxWidth: "600px" }}>
+      <div
+        className="bg-white p-4 rounded-lg mb-4 w-full mx-2 border border-gray-200"
+        style={{ height: "120px", maxWidth: "600px" }}
+      >
         {" "}
         {/* 调整卡片边距和高度 */}
         {/* <h2 className="text-l font-semibold mb-2 text-gray-500">Connection</h2> */}

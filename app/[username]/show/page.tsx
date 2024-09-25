@@ -22,7 +22,10 @@ export default function ShowPage({ params }: { params: { username: string } }) {
         <GoBack />
       </div>
       <ProfileShow urls={socialLinks} username={user.customDomain} />
-      <AddToMyCardholder currentUser={params.username} targetUser={user.customDomain} /> {/* 直接获取当前/[username] */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 pb-6">
+        <AddToMyCardholder currentUser={params.username} targetUser={user.customDomain} />{" "}
+        {/* 直接获取当前/[username] */}
+      </div>
     </div>
   );
 }

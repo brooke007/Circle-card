@@ -99,7 +99,7 @@ export default function CustomWalletButton() {
       >
         <Button
           onClick={() => (connected ? setShowWalletInfo(true) : setShowWalletList(true))}
-          className={`h-12 rounded-full bg-white text-gray-800 hover:bg-gray-200 border border-gray-300 shadow-lg ${
+          className={`h-12 rounded-full bg-white text-gray-800 hover:bg-gray-200 border border-gray-300 shadow-sm ${
             connected ? "px-4" : "w-12"
           } flex items-center space-x-2 overflow-hidden`}
         >

@@ -40,23 +40,23 @@ export default function Home() {
       setUser({ ...user, customDomain: domain });
       // 保存数据到数据库中
       localStorage.setItem("users", JSON.stringify(user));
-      window.location.href = `/${domain}`;
+      window.location.href = `/${domain}/edit`;
     }
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center relative">
       <div className="flex items-center justify-center my-8">
-        <div className="w-64 h-64 border-4 border-black rounded-full"></div>
+        <video className="w-full h-full rounded-lg" src="/circle-video.mkv" autoPlay loop muted></video>
       </div>
-      <h1 className="text-2xl font-bold text-gray-800 ml-8 mr-8">Get Your Pizza Card Here!</h1>
+      <h1 className="text-2xl font-bold text-gray-800 ml-8 mr-8">Get Your Circle Card Here!</h1>
 
       {user ? (
         !user.customDomain && <SetCustomDomain account={user.account} onDomainSet={handleDomainSet} />
       ) : (
         <button
           onClick={() => setShowLoginRegisterModal(true)}
-          className="bg-black text-white px-2 py-1 mt-8 rounded-md text-lg font-semibold hover:bg-gray-800 transition-colors"
+          className="bg-black text-white px-2 py-1 mt-8 rounded-md text-lg font-semibold hover:bg-gray-800 transition-colors w-[calc(100%-2rem)] mx-4"
         >
           Log in/Sign up
         </button>
