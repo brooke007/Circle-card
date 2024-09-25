@@ -43,8 +43,8 @@ export default function ProfileShow({ urls, username }: ProfileShowProps) {
       <h1 className="text-2xl font-bold mb-4 text-gray-900">{username}</h1> {/* 使文字颜色更深 */}
       {/* Connection 方框 */}
       <div
-        className="bg-white p-4 rounded-lg mb-4 w-full mx-2 border border-gray-200"
-        style={{ height: "120px", maxWidth: "600px" }}
+        className="bg-white p-2 rounded-lg mb-4 w-full mx-2 border border-gray-200"
+        style={{ height: "90px", maxWidth: "1000px" }}
       >
         {" "}
         {/* 调整卡片边距和高度 */}
@@ -64,10 +64,10 @@ export default function ProfileShow({ urls, username }: ProfileShowProps) {
         </div>
       </div>
       {/* Social Media 方框 */}
-      <div className="w-full mx-2" style={{ height: "120px", maxWidth: "600px" }}>
+      <div className="w-full mx-2" style={{ height: "120px", maxWidth: "1000px" }}>
         {" "}
         {/* 透明框，固定高度 */}
-        <div className="overflow-y-auto h-full">
+        <div className="overflow-y-auto h-full border border-gray-200 rounded-lg">
           {socialMediaUrls.map((url, index) => (
             <div
               key={index}

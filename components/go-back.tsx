@@ -8,7 +8,7 @@ export default function GoBack() {
   return (
     <button
       onClick={() => router.back()}
-      className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300 transition-colors"
+      className="bg-transparent text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300 transition-colors"
     >
       &lt;
     </button>

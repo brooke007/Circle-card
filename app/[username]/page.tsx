@@ -1,48 +1,57 @@
 "use client";
 
-import { notFound, useRouter } from "next/navigation";
-import { getUserByCustomDomain } from "@/lib/data";
-import FloatingActionButtons from "@/components/floating-action-buttons";
+import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
+import { getUserByCustomDomain, getUserUrls, getSavedCards } from "@/lib/data";
+import ProfileShow from "@/components/profile-show";
+import GoBack from "@/components/go-back";
+import AddToMyCardholder from "@/components/add-to-my-cardholder";
 import CustomWalletButton from "@/components/custom-wallet-button";
-import QRCodeShow from "@/components/QRCode-show";
-// import QRCodeScanner from "@/components/Scan-QRcode-show";
+import FloatingActionButtons from "@/components/floating-action-buttons";
 
 export default function ProfilePage({ params }: { params: { username: string } }) {
   const user = getUserByCustomDomain(params.username);
-  const router = useRouter();
-  // const { publicKey } = useWallet()
+  const [loggedInUser, setLoggedInUser] = useState<{
+    account: string;
+    password: string;
+    customDomain: string;
+    avatarUrl: string;
+  } | null>(null);
+
+  useEffect(() => {
+    // 从本地存储中获取登录用户信息
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setLoggedInUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   if (!user) {
     notFound();
   }
 
-  // const socialLinks = getUserUrls(user.customDomain);
-
-  const handleQRCodeClick = () => {
-    router.push(`/${params.username}/show`);
-  };
+  const socialLinks = getUserUrls(user.customDomain);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center relative p-4 overflow-hidden">
+    <div className="min-h-screen bg-white flex flex-col items-center p-4">
+      {/* 回退按钮 */}
+      <div className="fixed top-4 left-4">
+        <GoBack />
+      </div>
       <div className="fixed top-4 right-4 z-50">
         <CustomWalletButton />
       </div>
-      <div className="relative z-10 flex flex-col items-center">
-        <div className="h-16" />
-        <div className="flex justify-center items-center h-48">
-          <img src="/circle-logo.png" alt="Circle Logo" className="h-auto w-96" />
-        </div>
-        <div className="text-center mb-2">
-          <h1 className="text-xl text-gray-800 font-bold">{user.customDomain}</h1>
-        </div>
-        <div onClick={handleQRCodeClick}>
-          <QRCodeShow username={user.customDomain} />
-        </div>
-        <div className="h-24" />
-      </div>
-      {/* Spacer for floating buttons */}
+      <ProfileShow urls={socialLinks} username={user.customDomain} /> {/* 传递 newusername */}
       <div className="fixed bottom-0 left-0 right-0 z-50 pb-6">
-        <FloatingActionButtons username={user.customDomain} />
+        {loggedInUser && loggedInUser.customDomain === user.customDomain ? (
+          <FloatingActionButtons username={user.customDomain} />
+        ) : (
+          // 新增判断逻辑
+          loggedInUser &&
+          !getSavedCards(loggedInUser.customDomain).includes(user.customDomain) && (
+            <AddToMyCardholder currentUser={loggedInUser.customDomain} targetUser={user.customDomain} />
+          )
+        )}
       </div>
     </div>
   );

@@ -19,9 +19,9 @@ export default function FloatingActionButtons({ username }: { username: string }
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleStartScanning = () => {
-    setShowScanner(true);
-  };
+  // const handleStartScanning = () => {
+  //   setShowScanner(true);
+  // };
 
   const handleCloseScanner = () => {
     setShowScanner(false);
@@ -31,29 +31,29 @@ export default function FloatingActionButtons({ username }: { username: string }
     <>
       <div className="fixed bottom-4 left-4 right-4 bg-white shadow-lg flex justify-around py-1 rounded-2xl border border-gray-300">
         <Link
-          href={`/${username}/edit`}
+          href={`/edit`}
           className="p-2 bg-transparent hover:bg-gray-200 rounded-full transition-colors duration-300"
         >
           <Edit size={buttonSize} className="text-gray-900" />
         </Link>
         <Link
-          href={`/${username}/cardholder`}
+          href={`/cardholder`}
           className="p-2 bg-transparent hover:bg-gray-200 rounded-full transition-colors duration-300"
         >
           <Users size={buttonSize} className="text-gray-900" />
         </Link>
         <Link
-          href={`/${username}/web3`}
+          href={`/web3`}
           className="p-2 bg-transparent hover:bg-gray-200 rounded-full transition-colors duration-300"
         >
           <Globe size={buttonSize} className="text-gray-900" />
         </Link>
-        <button
+        {/* <button
           onClick={handleStartScanning}
           className="p-2 bg-transparent hover:bg-gray-200 rounded-full transition-colors duration-300"
         >
           <img src="ScanQRcodeIcon.png" alt="Scan" className="w-5 h-5" />
-        </button>
+        </button> */}
       </div>
       {showScanner && <QRCodeScanner onClose={handleCloseScanner} />}
     </>

@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getUserUrls, updateUserUrls } from "@/lib/data"; // 假设 getUserUrls 可以根据 customDomain 获取用户的 profileurl 和 platform
 
 interface ProfileEditProps {
   initialUrls: Array<{ platform: string; url: string }>;
   onSave: (urls: Array<{ platform: string; url: string }>) => void;
   username: string;
+  loggedInUserCustomDomain: string; // 新增属性
 }
 
 const connectionPlatforms = ["wechat", "QQ", "email", "telegram", "discord", "phonenumber"];
@@ -24,7 +26,7 @@ const socialMediaPlatforms = [
   "抖音",
 ];
 
-export default function ProfileEdit({ initialUrls, onSave, username }: ProfileEditProps) {
+export default function ProfileEdit({ initialUrls, onSave, username, loggedInUserCustomDomain }: ProfileEditProps) {
   const [urls, setUrls] = useState(initialUrls);
   const [connectionOpen, setConnectionOpen] = useState(false);
   const [socialMediaOpen, setSocialMediaOpen] = useState(false);
@@ -34,6 +36,12 @@ export default function ProfileEdit({ initialUrls, onSave, username }: ProfileEd
   useEffect(() => {
     setUrls(initialUrls);
   }, [initialUrls]);
+
+  useEffect(() => {
+    // 根据 loggedInUserCustomDomain 获取用户的 profileurl 和 platform
+    const userUrls = getUserUrls(loggedInUserCustomDomain);
+    setUrls(userUrls);
+  }, [loggedInUserCustomDomain]);
 
   const handleUrlChange = (platform: string, value: string) => {
     const index = urls.findIndex(url => url.platform === platform);
@@ -47,11 +55,15 @@ export default function ProfileEdit({ initialUrls, onSave, username }: ProfileEd
     setChangedUrls(new Set(changedUrls).add(platform));
   };
 
-  const handleSave = (type: "connection" | "socialMedia") => {
+  const handleSave = async (type: "connection" | "socialMedia") => {
     // 使用 type 参数
     console.log(type); // 这里可以根据需要使用 type
     onSave(urls);
     setChangedUrls(new Set());
+    // 保存数据到数据库
+    await updateUserUrls(loggedInUserCustomDomain, urls);
+    // 保存数据后跳转到登录用户的 customDomain 页面
+    router.push(`/${loggedInUserCustomDomain}`);
   };
 
   const renderUrlInputs = (platforms: string[]) => {
@@ -107,7 +119,7 @@ export default function ProfileEdit({ initialUrls, onSave, username }: ProfileEd
         </div>
       )}
       <button
-        onClick={() => router.push(`/${username}/system`)}
+        onClick={() => router.push(`/system`)}
         className="w-full p-4 text-left font-semibold flex justify-between items-center bg-white text-gray-700 rounded-lg border border-gray-200"
       >
         System
