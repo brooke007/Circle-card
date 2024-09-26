@@ -26,7 +26,7 @@ const socialMediaPlatforms = [
   "抖音",
 ];
 
-export default function ProfileEdit({ initialUrls, onSave, username, loggedInUserCustomDomain }: ProfileEditProps) {
+export default function ProfileEdit({ initialUrls, onSave, loggedInUserCustomDomain }: ProfileEditProps) {
   const [urls, setUrls] = useState(initialUrls);
   const [connectionOpen, setConnectionOpen] = useState(false);
   const [socialMediaOpen, setSocialMediaOpen] = useState(false);

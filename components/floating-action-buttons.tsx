@@ -3,7 +3,7 @@ import { Edit, Users, Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import QRCodeScanner from "./Scan-QRcode-show";
 
-export default function FloatingActionButtons({ username }: { username: string }) {
+export default function FloatingActionButtons() {
   const [buttonSize, setButtonSize] = useState(20);
   const [showScanner, setShowScanner] = useState(false);
 

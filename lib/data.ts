@@ -6,7 +6,8 @@
 
 const users = [
   { account: "jojo", password: "111", customDomain: "jojo", avatarUrl: "/pizza00.png?height=100&width=100" },
-  { account: "janedoe", password: "password456", customDomain: "jane", avatarUrl: "/tool01.png?height=100&width=100" },
+  { account: "janedoe", password: "111", customDomain: "jane", avatarUrl: "/tool01.png?height=100&width=100" },
+  { account: "anyi", password: "111", customDomain: "anyi", avatarUrl: "" },
 ];
 
 // const userUrls = [
@@ -34,6 +35,21 @@ const userUrls = [
   },
   {
     customDomain: "jane",
+    urls: [
+      { platform: "QQ", url: "https://qq.com/janedoe" },
+      { platform: "discord", url: "https://discord.com/users/janedoe" },
+      { platform: "phonenumber", url: "tel:+1234567890" },
+      { platform: "Facebook", url: "https://facebook.com/janedoe" },
+      { platform: "ins", url: "https://instagram.com/janedoe" },
+      { platform: "steam", url: "https://steamcommunity.com/id/janedoe" },
+      { platform: "豆瓣", url: "https://douban.com/people/janedoe" },
+      { platform: "小红书", url: "https://xiaohongshu.com/user/janedoe" },
+      { platform: "抖音", url: "https://douyin.com/user/janedoe" },
+      { platform: "抖音", url: "https://douyin.com/user/janedoe" },
+    ],
+  },
+  {
+    customDomain: "anyi",
     urls: [
       { platform: "QQ", url: "https://qq.com/janedoe" },
       { platform: "discord", url: "https://discord.com/users/janedoe" },

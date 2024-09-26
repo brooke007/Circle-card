@@ -14,7 +14,7 @@ export default function Home() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [user, setUser] = useState<{
     account: string;
-    password: string;
+    // password: string;
     customDomain: string;
     avatarUrl: string;
   } | null>(null);
