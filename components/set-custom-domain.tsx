@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { updateCustomDomain } from "@/lib/data";
 
 interface SetCustomDomainProps {
   account: string;
@@ -12,14 +11,30 @@ export default function SetCustomDomain({ account, onDomainSet }: SetCustomDomai
   const [customDomain, setCustomDomain] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (updateCustomDomain(account, customDomain)) {
-      onDomainSet(customDomain);
-    } else {
-      setError("Failed to update custom domain");
+    try {
+      const response = await fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'updateCustomDomain', username: account, customDomain }),
+      });
+
+      console.log(response)
+      if (!response.ok) {
+        throw new Error('更新自定义域名失败');
+      }
+
+      const result = await response.json();
+      if (result.success) {
+        onDomainSet(customDomain);
+      } else {
+        setError("更新自定义域名失败");
+      }
+    } catch (error: any) {
+      setError(error.message || "发生错误");
     }
   };
 
