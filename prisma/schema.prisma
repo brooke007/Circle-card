@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  username     String  @unique @db.VarChar(255)
+  password     String  @db.VarChar(255)
+  customDomain String? @unique @db.VarChar(255)
+  address      String? @db.VarChar(255)
+  wechat       String? @db.Text
+  email        String? @db.Text
+  telegram     String? @db.Text
+  twitter      String? @db.Text
+  GitHub       String? @db.Text
+  bilibili     String? @db.Text
+  weibo        String? @db.Text
+  QQ           String? @db.Text
+  discord      String? @db.Text
+  phonenumber  String? @db.Text
+  Facebook     String? @db.Text
+  ins          String? @db.Text
+  steam        String? @db.Text
+  douban       String? @db.Text
+  xiaohongshu  String? @db.Text
+  douyin       String? @db.Text
+  savedUser    SavedCard[] @relation("SavedCardSavedUser")
+}
+
+model SavedCard {
+  id          Int    @id @default(autoincrement())
+  savedUserId Int    
+  savedUser   User   @relation(fields: [savedUserId], references: [id], name: "SavedCardSavedUser")
+}
