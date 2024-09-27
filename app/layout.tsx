@@ -8,6 +8,7 @@ export const metadata = {
   description: 'Your online presence in one place',
 }
 
+
 export default function RootLayout({
   children,
 }: {

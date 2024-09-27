@@ -33,6 +33,7 @@ export default function Home() {
       loggedInUser = createUser(account, password) || undefined;
       setUser(loggedInUser || null);
       setShowLoginRegisterModal(false);
+      
       // 注册后需要设置 customDomain
       if (!loggedInUser?.customDomain) {
         return;
@@ -105,7 +106,7 @@ export default function Home() {
               </h1>
             </div>
             <div onClick={handleQRCodeClick}>
-              <QRCodeShow customDomain={user.customDomain} />
+              <QRCodeShow username={user.customDomain} />
             </div>
             <div className="h-24" />
           </div>

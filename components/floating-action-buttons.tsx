@@ -55,7 +55,7 @@ export default function FloatingActionButtons({ username }: { username: string }
           <img src="ScanQRcodeIcon.png" alt="Scan" className="w-5 h-5" />
         </button> */}
       </div>
-      {showScanner && <QRCodeScanner onClose={handleCloseScanner} />}
+      {/* {showScanner && <QRCodeScanner onClose={handleCloseScanner} />} */}
     </>
   );
 }

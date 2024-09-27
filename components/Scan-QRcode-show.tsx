@@ -1,45 +1,36 @@
-import React, { useState } from "react";
-import QrScanner from "react-qr-scanner";
+import { useEffect } from 'react';
+import { Html5QrcodeScanner } from 'html5-qrcode';
 
-const QRCodeScanner = ({ onClose }: { onClose: () => void }) => {
-  const [result, setResult] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isScanning, setIsScanning] = useState<boolean>(true); // 默认开始扫描
+const QRCodeScanner = () => {
+  useEffect(() => {
+    // 检查 window 是否存在（确保是在浏览器环境下运行）
+    if (typeof window !== 'undefined') {
+      const scanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: 250 },
+        false
+      );
 
-  const handleScan = (data: string | null) => {
-    if (data) {
-      setResult(data);
-      if (window.confirm(`Do you want to visit this link? ${data}`)) {
-        window.location.href = data;
-      }
-      setIsScanning(false);
-      onClose(); // 扫描完成后关闭
+      scanner.render(
+        (result: any) => {
+          alert(`Scanned result: ${result}`);
+          scanner.clear(); // 停止扫描
+        },
+        (error: any) => {
+          console.warn(`Error: ${error}`);
+        }
+      );
+
+      return () => {
+        scanner.clear(); // 清除扫描器
+      };
     }
-  };
-
-  const handleError = (err: Error) => {
-    console.error(err);
-    setError("Error occurred while scanning.");
-  };
+  }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 h-screen w-screen">
-      {isScanning && (
-        <div className="relative w-full h-full">
-          <QrScanner delay={300} onError={handleError} onScan={handleScan} style={{ width: "100%", height: "100%" }} />
-          <button
-            onClick={() => {
-              setIsScanning(false);
-              onClose();
-            }}
-            className="absolute top-2/3 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-white text-gray-800 rounded hover:bg-red-700 hover:text-white border border-gray-300"
-          >
-            Stop Scanning
-          </button>
-        </div>
-      )}
-      {result && <p className="mt-4 text-lg font-semibold">{result}</p>}
-      {error && <p className="mt-2 text-red-500">{error}</p>}
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1>Scan QR Code</h1>
+      <div id="reader" style={{ width: '100%' }}></div>
     </div>
   );
 };
