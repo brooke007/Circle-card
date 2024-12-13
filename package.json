@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "5.20.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@solana/wallet-adapter-base": "^0.9.23",
@@ -35,6 +36,7 @@
     "eslint-config-next": "14.2.8",
     "postcss": "^8",
     "prettier": "^3.3.3",
+    "prisma": "^5.20.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

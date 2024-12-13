@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { findUser, createUser } from "@/lib/data";
 
 interface LoginRegisterModalProps {
   onClose: () => void;
@@ -13,20 +12,45 @@ export default function LoginRegisterModal({ onClose, onLoginRegister }: LoginRe
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    const existingUser = findUser(account, password);
-    if (existingUser) {
-      onLoginRegister(account, password);
-    } else {
-      const newUser = createUser(account, password);
-      if (newUser) {
+    try {
+      const response = await fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', username: account, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('登录失败');
+      }
+
+      const user = await response.json();
+      if (user) {
         onLoginRegister(account, password);
       } else {
-        setError("Account already exists");
+        // 如果用户不存在，尝试注册
+        const registerResponse = await fetch('/api/user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'register', username: account, password }),
+        });
+
+        if (!registerResponse.ok) {
+          throw new Error('注册失败');
+        }
+
+        const newUser = await registerResponse.json();
+        if (newUser) {
+          onLoginRegister(account, password);
+        } else {
+          setError("账户已存在");
+        }
       }
+    } catch (error: any) {
+      setError(error.message || "发生错误");
     }
   };
 

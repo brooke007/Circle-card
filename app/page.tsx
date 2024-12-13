@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import LoginRegisterModal from "@/components/login-register-modal";
 import SetCustomDomain from "@/components/set-custom-domain";
-import { findUser, createUser } from "@/lib/data";
 import FloatingActionButtons from "@/components/floating-action-buttons";
 import CustomWalletButton from "@/components/custom-wallet-button";
 import QRCodeShow from "@/components/QRCode-show";
+import { User } from '../types/user'; 
 import "./globals.css";
 
 export default function Home() {
@@ -16,8 +16,8 @@ export default function Home() {
     account: string;
     // password: string;
     customDomain: string;
-    avatarUrl: string;
   } | null>(null);
+
 
   useEffect(() => {
     // 从本地存储中获取用户信息
@@ -27,10 +27,23 @@ export default function Home() {
     }
   }, []);
 
-  const handleLoginRegister = (account: string, password: string) => {
-    let loggedInUser = findUser(account, password);
+  const handleLoginRegister = async (account: string, password: string) => {
+    const response = await fetch('/api/user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'login', username: account, password }),
+    });
+    const loggedInUser = await response.json();
+
     if (!loggedInUser) {
-      loggedInUser = createUser(account, password) || undefined;
+      const response = await fetch('/api/user', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'register', username: account, password})
+      });
+
+      const loggedInUser = await response.json();
+
       setUser(loggedInUser || null);
       setShowLoginRegisterModal(false);
       // 注册后需要设置 customDomain
@@ -46,7 +59,7 @@ export default function Home() {
         localStorage.setItem("user", JSON.stringify(loggedInUser));
         return;
       }
-    }
+    } 
     // 缓存用户信息
     localStorage.setItem("user", JSON.stringify(loggedInUser));
   };
@@ -111,7 +124,7 @@ export default function Home() {
           </div>
           {/* Spacer for floating buttons */}
           <div className="fixed bottom-0 left-0 right-0 z-50 pb-6">
-            <FloatingActionButtons username={user.customDomain} />
+            <FloatingActionButtons customDomain={user.customDomain} />
           </div>
         </div>
       )}
